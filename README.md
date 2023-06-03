@@ -12,3 +12,12 @@ Run a query towards the dApp: `chr query --blockchain-rid <blockchain-rid> hello
 
 Run tests: `chr tests`
 
+## Front-end
+To run the front-end:
+
+1. `cd client`
+2. `npm install`
+3. `npm run dev`
+4. Navigate to: [http://localhost:5173](http://localhost:5173)
+
+> **Note:** that the client assumes that the backend is running on [http://localhost:7740].
