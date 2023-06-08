@@ -4,8 +4,14 @@ object my_name {
   mutable name= "World";
  }
 
+ struct module_args {
+  admin_pub_key: byte_array;
+ }
+
 operation set_name(name) {
   my_name.name = name;
 }
 
 query hello_world() = "Hello %s!".format(my_name.name);
+
+query get_admin_pubkey() = chain_context.args.admin_pub_key;
