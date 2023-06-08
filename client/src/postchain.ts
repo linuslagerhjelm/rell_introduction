@@ -1,4 +1,4 @@
-import { gtxClient, restClient, restClientutil } from "postchain-client";
+import { encryption, gtxClient, restClient, restClientutil } from "postchain-client";
 import { Post, PostListing, Comment } from "./store";
 
 const formatDate = (date: Date) => {
@@ -14,6 +14,10 @@ const createClient = async (nodeUrl?: string) => {
     brid,
     []
   );
+}
+
+const nop = (): [string, Buffer] => {
+  return ["nop", encryption.randomBytes(32)];
 }
 
 export async function fetchPosts(): Promise<PostListing[]> {
@@ -58,4 +62,14 @@ export async function fetchCommentsForPost(id: string): Promise<Comment[]> {
     }])
     default: return Promise.resolve([]) 
   }
+}
+
+export async function createNewPost(formData: { title: string, content: string, privkey: Buffer }) {
+  const client = await createClient()
+  const keyPair = encryption.makeKeyPair(formData.privkey)
+  const txn = client.newTransaction([keyPair.pubKey])
+  txn.addOperation("add_blog_post", formData.title, formData.content, formatDate(new Date()))
+  txn.addOperation(...nop())
+  await txn.sign(keyPair.privKey, keyPair.pubKey)
+  await txn.postAndWaitConfirmation()
 }

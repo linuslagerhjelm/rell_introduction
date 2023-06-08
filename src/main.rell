@@ -15,3 +15,8 @@ operation set_name(name) {
 query hello_world() = "Hello %s!".format(my_name.name);
 
 query get_admin_pubkey() = chain_context.args.admin_pub_key;
+
+operation add_blog_post(title: text, content: text, published_date: text) {
+  require(op_context.is_signer(get_admin_pubkey()), "Not the admin signature");
+  print(title, content);
+}

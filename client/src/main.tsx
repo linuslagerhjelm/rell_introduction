@@ -7,6 +7,10 @@ import {
 } from 'react-router-dom'
 import './index.css'
 import PostPage from './PostPage.tsx'
+import WritePostPage from './WritePostPage.tsx'
+import { Buffer } from 'buffer'
+
+globalThis.Buffer = Buffer
 
 const router = createBrowserRouter([
   {
@@ -16,7 +20,11 @@ const router = createBrowserRouter([
   {
     path: "/post/:id",
     element: <PostPage />
-  }
+  },
+  {
+    path: "/post/write",
+    element: <WritePostPage />
+  },
 ])
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
