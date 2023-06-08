@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import React, { useEffect } from "react"
 import { useParams } from "react-router"
 import DOMPurify from 'dompurify'
 import parse from 'html-react-parser'
@@ -54,7 +54,7 @@ const PostPage = () => {
       {comments.length ? <Comments>
         <h2>Comments:</h2>
         {comments.map(comment => (
-          <Comment>
+          <Comment key={comment.content}>
             <CommentTimestamp>{comment.created}</CommentTimestamp>
             <CommentHeader>{comment.author}</CommentHeader>
             {comment.content}
